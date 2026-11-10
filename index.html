@@ -471,6 +471,15 @@
             <button type="submit">Request</button>
           </form>
           <p class="field-note" id="newsletterNote">This opens an email to request future articles; requests are handled individually and nothing is sent automatically from this page.</p>
+
+          <div id="newsletterFallback" style="display:none; margin-top:14px;">
+            <p class="field-note" style="margin-bottom:6px;">If your email app did not open, copy this and paste it into an email addressed to <a href="mailto:capramodsagara@gmail.com">capramodsagara@gmail.com</a>:</p>
+            <textarea id="newsletterFallbackText" readonly style="width:100%; min-height:90px; font-family:inherit; font-size:0.85rem; padding:10px; border:1px solid var(--rule-strong); background:var(--paper); color:var(--ink); resize:vertical;"></textarea>
+            <div class="newsletter-row" style="margin-top:10px;">
+              <button type="button" id="copyNewsletterBtn" class="btn btn-outline" style="padding:9px 16px;">Copy message</button>
+              <span class="field-note" id="copyNewsletterNote" style="align-self:center; margin:0;"></span>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -549,6 +558,16 @@
 
           <button type="submit" class="btn btn-filled">Send enquiry</button>
           <p class="field-note" id="enquiryNote">Fill in your query and we will reach out to you.</p>
+
+          <div class="newsletter-box" id="enquiryFallback" style="display:none; margin-top:16px;">
+            <h3>If your email app did not open</h3>
+            <p>Copy the message below and paste it into an email addressed to <a href="mailto:capramodsagara@gmail.com">capramodsagara@gmail.com</a>.</p>
+            <textarea id="enquiryFallbackText" readonly style="width:100%; min-height:150px; font-family:inherit; font-size:0.85rem; padding:10px; border:1px solid var(--rule-strong); background:var(--paper); color:var(--ink); resize:vertical;"></textarea>
+            <div class="newsletter-row" style="margin-top:10px;">
+              <button type="button" id="copyEnquiryBtn" class="btn btn-outline" style="padding:9px 16px;">Copy message</button>
+              <span class="field-note" id="copyEnquiryNote" style="align-self:center; margin:0;"></span>
+            </div>
+          </div>
         </form>
       </section>
     </div>
@@ -610,11 +629,36 @@
         e.preventDefault();
         var email = nlForm.querySelector("input[type=email]").value.trim();
         if (!email) return;
+        var subject = "Article updates request";
+        var body = "Please add this email to the article update list: " + email;
         window.location.href = "mailto:capramodsagara@gmail.com?subject=" +
-          encodeURIComponent("Article updates request") +
-          "&body=" + encodeURIComponent("Please add this email to the article update list: " + email);
-        document.getElementById("newsletterNote").textContent = "Your email application should now open to send the request.";
+          encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        document.getElementById("newsletterNote").textContent = "Your email application should now open to send the request. If it doesn't, use the copy option below.";
+
+        var fallback = document.getElementById("newsletterFallback");
+        var fallbackText = document.getElementById("newsletterFallbackText");
+        fallbackText.value = "To: capramodsagara@gmail.com\nSubject: " + subject + "\n\n" + body;
+        fallback.style.display = "block";
       });
+
+      var nlCopyBtn = document.getElementById("copyNewsletterBtn");
+      var nlCopyNote = document.getElementById("copyNewsletterNote");
+      if (nlCopyBtn) {
+        nlCopyBtn.addEventListener("click", function () {
+          var text = document.getElementById("newsletterFallbackText");
+          text.focus();
+          text.select();
+          var done = function () { nlCopyNote.textContent = "Copied."; };
+          var fail = function () { nlCopyNote.textContent = "Select the text above and copy it manually."; };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text.value).then(done).catch(fail);
+          } else {
+            try {
+              document.execCommand("copy") ? done() : fail();
+            } catch (err) { fail(); }
+          }
+        });
+      }
     }
 
     var enqForm = document.getElementById("enquiryForm");
@@ -625,14 +669,39 @@
         var name = document.getElementById("enqName").value.trim();
         var email = document.getElementById("enqEmail").value.trim();
         var msg = document.getElementById("enqMsg").value.trim();
+        var subject = "Service enquiry from " + (name || "website visitor");
         var body = "Name: " + name + "\nEmail: " + email +
           "\nServices of interest: " + (services.length ? services.join(", ") : "None selected") +
           (msg ? "\n\nMessage:\n" + msg : "");
+
         window.location.href = "mailto:capramodsagara@gmail.com?subject=" +
-          encodeURIComponent("Service enquiry from " + (name || "website visitor")) +
-          "&body=" + encodeURIComponent(body);
-        document.getElementById("enquiryNote").textContent = "Your email application should now open with the enquiry filled in.";
+          encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        document.getElementById("enquiryNote").textContent = "Your email application should now open with the enquiry filled in. If it doesn't, use the copy option below.";
+
+        var fallback = document.getElementById("enquiryFallback");
+        var fallbackText = document.getElementById("enquiryFallbackText");
+        fallbackText.value = "To: capramodsagara@gmail.com\nSubject: " + subject + "\n\n" + body;
+        fallback.style.display = "block";
       });
+
+      var copyBtn = document.getElementById("copyEnquiryBtn");
+      var copyNote = document.getElementById("copyEnquiryNote");
+      if (copyBtn) {
+        copyBtn.addEventListener("click", function () {
+          var text = document.getElementById("enquiryFallbackText");
+          text.focus();
+          text.select();
+          var done = function () { copyNote.textContent = "Copied."; };
+          var fail = function () { copyNote.textContent = "Select the text above and copy it manually."; };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text.value).then(done).catch(fail);
+          } else {
+            try {
+              document.execCommand("copy") ? done() : fail();
+            } catch (err) { fail(); }
+          }
+        });
+      }
     }
   })();
 </script>
