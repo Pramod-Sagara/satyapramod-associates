@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Satyapramod &amp; Associates, Chartered Accountants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #2F6B4F;
+    --teal-dark: #1F4A36;
+    --ink: #243B2C;
+    --ink-soft: #46604E;
+    --muted: #7C8F80;
+    --paper: #FFFFFF;
+    --paper-raised: #F4FAF6;
+    --rule: #DCE8DF;
+    --rule-strong: #BFD2C5;
+    --brass: #5E7A3F;
+    --brass-ink: #46602E;
+    --focus: #2255AA;
+    color-scheme: light;
+  }
+  /* Background is fixed to white at all times, regardless of the visitor's
+     system or browser dark-mode setting — this page does not switch palettes. */
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  html { scroll-padding-top: 140px; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+    background: var(--teal-dark); z-index: 60;
+  }
+  h1, h2, h3 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-weight: 500; color: var(--ink); margin: 0; letter-spacing: 0.005em;
+  }
+  a { color: var(--brass-ink); }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--focus); outline-offset: 2px;
+  }
+  p { color: var(--ink-soft); margin: 0 0 1em; }
+  .container { max-width: 980px; margin: 0 auto; padding: 0 28px; }
+  .prose { max-width: 620px; }
+  .smallcaps { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ---------- Utility bar ---------- */
+  .utility-bar {
+    background: var(--teal-dark);
+    color: #EDE9DD;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .utility-inner {
+    max-width: 980px; margin: 0 auto; padding: 9px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.8rem; gap: 12px; flex-wrap: wrap;
+  }
+  .utility-inner a { color: #EDE9DD; text-decoration: none; }
+  .utility-inner a:hover { text-decoration: underline; }
+  .utility-contact { display: flex; gap: 18px; flex-wrap: wrap; }
+  .utility-loc { opacity: 0.85; }
+
+  /* ---------- Masthead ---------- */
+  header.masthead {
+    position: sticky; top: 0; z-index: 40;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px; max-width: 980px; margin: 0 auto; gap: 18px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand-mark {
+    width: 40px; height: 40px; flex: none;
+    border: 1.5px solid var(--teal); display: flex; align-items: center; justify-content: center;
+    font-family: "Source Serif 4", Georgia, serif; font-size: 1.3rem; color: var(--teal);
+    position: relative;
+  }
+  .brand-mark::after {
+    content: ""; position: absolute; left: 8px; right: 8px; bottom: 6px; height: 2px; background: var(--brass);
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .brand-name { font-family: "Source Serif 4", Georgia, serif; font-size: 1.22rem; font-weight: 500; color: var(--ink); }
+  .brand-name span { color: var(--brass); }
+  .brand-suffix { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+  nav.primary { display: flex; align-items: center; gap: 4px; }
+  nav.primary a {
+    font-size: 0.88rem; color: var(--ink-soft); text-decoration: none;
+    padding: 9px 11px; border-bottom: 2px solid transparent; white-space: nowrap;
+  }
+  nav.primary a:hover { color: var(--ink); }
+  nav.primary a[aria-current="page"] { color: var(--brass-ink); border-bottom-color: var(--brass); }
+
+  .nav-toggle {
+    display: none; background: none; border: 1px solid var(--rule-strong); border-radius: 3px;
+    color: var(--ink); width: 38px; height: 34px; align-items: center; justify-content: center; cursor: pointer; flex: none;
+  }
+  @media (max-width: 760px) {
+    nav.primary {
+      display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--paper);
+      border-bottom: 1px solid var(--rule); flex-direction: column; align-items: stretch; padding: 4px 28px 14px; gap: 0;
+    }
+    nav.primary.open { display: flex; }
+    nav.primary a { padding: 11px 2px; border-bottom: 1px solid var(--rule); }
+    nav.primary a[aria-current="page"] { border-bottom: 1px solid var(--rule); }
+    .nav-toggle { display: inline-flex; }
+    .masthead-inner { position: relative; }
+    .brand-suffix { display: none; }
+  }
+
+  /* ---------- Hero (home) ---------- */
+  .hero { padding: 72px 0 60px; border-bottom: 1px solid var(--rule); }
+  .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--ink-soft); margin-bottom: 22px; }
+  .eyebrow .dash { width: 28px; height: 1px; background: var(--brass); display: inline-block; }
+  .hero-heading { font-size: clamp(2.3rem, 6vw, 3.6rem); line-height: 1.12; }
+  .hero-heading .line2 { display: block; font-style: italic; color: var(--teal); }
+  .hero-sub { margin-top: 24px; max-width: 480px; font-size: 1.02rem; }
+  .hero-ctas { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px;
+    font-size: 0.92rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; font-family: inherit;
+  }
+  .btn-filled { background: var(--teal); color: #FBF8F0; }
+  .btn-filled:hover { background: var(--teal-dark); }
+  .btn-outline { background: transparent; color: var(--teal); border-color: var(--rule-strong); }
+  .btn-outline:hover { border-color: var(--teal); background: var(--paper-raised); }
+
+  /* ---------- Sections / views ---------- */
+  main { display: block; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  section.block { padding: 48px 0; border-bottom: 1px solid var(--rule); }
+  section.block:last-of-type { border-bottom: none; }
+  .block-title { font-size: 1.5rem; }
+  .block-lede { margin-top: 10px; max-width: 580px; }
+
+  .quicklinks { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 22px; }
+  .quicklinks a { font-size: 0.86rem; color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule-strong); padding-bottom: 2px; }
+  .quicklinks a:hover { color: var(--brass-ink); border-color: var(--brass); }
+
+  .service-group { padding: 34px 0; border-top: 1px solid var(--rule-strong); }
+  .service-group:first-of-type { border-top: 1px solid var(--rule-strong); margin-top: 26px; }
+  .service-group h3 { font-size: 1.12rem; }
+  .service-meta { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+  dl.spec { margin: 18px 0 0; border-top: 1px solid var(--rule); }
+  dl.spec > div { display: grid; grid-template-columns: 190px 1fr; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+  dl.spec dt { font-size: 0.8rem; color: var(--muted); margin: 0; }
+  dl.spec dd { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
+  @media (max-width: 560px) { dl.spec > div { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* ---------- About ---------- */
+  .about-layout { margin-top: 30px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; }
+  .about-facts { max-width: 420px; }
+  @media (max-width: 760px) {
+    .about-layout { grid-template-columns: 1fr; gap: 32px; }
+    .about-facts { max-width: none; }
+  }
+
+  .factsheet { border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); }
+  .fact-row { display: grid; grid-template-columns: 170px 1fr; gap: 12px; padding: 11px 0; border-top: 1px solid var(--rule); }
+  .fact-row:first-child { border-top: none; }
+  .fact-term { font-size: 0.8rem; color: var(--muted); }
+  .fact-value { font-size: 0.92rem; color: var(--ink); }
+  .fact-value.placeholder { color: var(--muted); font-style: italic; }
+  @media (max-width: 560px) { .fact-row { grid-template-columns: 1fr; gap: 2px; } }
+
+  .bio { max-width: 640px; }
+
+  /* ---------- Articles / Newsletter ---------- */
+  .article-placeholder {
+    margin-top: 22px; padding: 22px; border: 1px dashed var(--rule-strong);
+    font-size: 0.88rem; color: var(--muted);
+  }
+  .newsletter-box {
+    margin-top: 16px; padding: 20px; border: 1px solid var(--rule-strong); background: var(--paper-raised);
+  }
+  .newsletter-box h3 { font-size: 1rem; }
+  .newsletter-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .newsletter-row input[type="email"] {
+    flex: 1 1 220px; padding: 10px 11px; border: 1px solid var(--rule-strong); background: var(--paper);
+    color: var(--ink); font-family: inherit; font-size: 0.88rem;
+  }
+  .newsletter-row button { padding: 10px 18px; background: var(--teal); color: #FBF8F0; border: none; font-family: inherit; font-size: 0.86rem; cursor: pointer; }
+  .newsletter-row button:hover { background: var(--teal-dark); }
+  .field-note { margin-top: 8px; font-size: 0.74rem; color: var(--muted); }
+
+  /* ---------- Contact ---------- */
+  .contact-grid { margin-top: 10px; border-top: 1px solid var(--rule-strong); }
+  .contact-row { display: grid; grid-template-columns: 150px 1fr; padding: 12px 0; border-bottom: 1px solid var(--rule); gap: 12px; }
+  .contact-row dt { font-size: 0.8rem; color: var(--muted); }
+  .contact-row dd { margin: 0; font-size: 0.94rem; }
+  @media (max-width: 560px) { .contact-row { grid-template-columns: 1fr; gap: 2px; } }
+
+  .enquiry-form { margin-top: 40px; max-width: 540px; }
+  .enquiry-form fieldset { border: 1px solid var(--rule-strong); padding: 16px 18px 18px; margin: 0 0 18px; }
+  .enquiry-form legend { font-size: 0.82rem; color: var(--muted); padding: 0 6px; }
+  .svc-check { display: flex; align-items: flex-start; gap: 9px; padding: 7px 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .svc-check input[type="checkbox"] {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; margin-top: 2px; flex: none;
+    background: #FFFFFF; border: 1.5px solid var(--rule-strong); border-radius: 3px;
+    position: relative; cursor: pointer;
+  }
+  .svc-check input[type="checkbox"]:checked {
+    background: #FFFFFF; border-color: var(--teal);
+  }
+  .svc-check input[type="checkbox"]:checked::after {
+    content: ""; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px;
+    border: solid var(--teal); border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+  .enquiry-form label.field-label { display: block; font-size: 0.8rem; color: var(--muted); margin: 14px 0 6px; }
+  .enquiry-form input[type="text"], .enquiry-form input[type="email"], .enquiry-form textarea {
+    width: 100%; padding: 10px 11px; border: 1px solid var(--rule-strong); background: var(--paper-raised);
+    color: var(--ink); font-family: inherit; font-size: 0.92rem;
+  }
+  .enquiry-form textarea { min-height: 110px; resize: vertical; }
+  .enquiry-form .btn { margin-top: 18px; }
+
+  footer { padding: 32px 0 44px; border-top: 1px solid var(--rule); margin-top: 10px; }
+  footer p { font-size: 0.76rem; color: var(--muted); margin: 0; }
+
+  .skip-link { position: absolute; left: -999px; top: auto; }
+  .skip-link:focus { left: 16px; top: 10px; background: var(--paper-raised); padding: 8px 12px; z-index: 100; }
+
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="utility-bar">
+  <div class="utility-inner">
+    <div class="utility-contact">
+      <a href="mailto:capramodsagara@gmail.com">capramodsagara@gmail.com</a>
+      <a href="tel:+917022160024">+91 70221 60024</a>
+    </div>
+    <span class="utility-loc">Bengaluru, Karnataka</span>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a class="brand" href="#home">
+      <span class="brand-mark">S</span>
+      <span class="brand-text">
+        <span class="brand-name">Satyapramod &amp; Associates<span>.</span></span>
+        <span class="brand-suffix">Chartered Accountants</span>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="primary" id="primaryNav">
+      <a href="#home" data-route="home">Home</a>
+      <a href="#services" data-route="services">Services</a>
+      <a href="#articles" data-route="articles">Articles</a>
+      <a href="#about" data-route="about">About</a>
+      <a href="#contact" data-route="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HOME -->
+  <section class="view" id="view-home">
+    <div class="container">
+      <div class="hero">
+        <div class="eyebrow">
+          <span class="dash"></span>
+          <span class="smallcaps">Bengaluru, Karnataka &middot; Chartered Accountant, DipIFRS</span>
+        </div>
+        <h1 class="hero-heading">
+          Satyapramod &amp; Associates
+          <span class="line2">Chartered Accountants</span>
+        </h1>
+        <p class="hero-sub">Statutory audit, tax audit, IFRS financial reporting, management reporting, and accounting services.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-filled" href="#services">View services</a>
+          <a class="btn btn-outline" href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES (merged) -->
+  <section class="view" id="view-services">
+    <div class="container">
+      <section class="block" style="padding-top:48px;">
+        <h2 class="block-title">Services</h2>
+        <p class="block-lede">A list of services provided by the firm.</p>
+        <div class="quicklinks">
+          <a href="#svc-nri">NRI services</a>
+          <a href="#svc-regn">Company &amp; firm registration</a>
+          <a href="#svc-trust">Trust registration</a>
+          <a href="#svc-itax">Income-tax advisory</a>
+          <a href="#svc-gst">GST advisory</a>
+          <a href="#svc-audit">Statutory &amp; tax audit</a>
+          <a href="#svc-ifrs">IFRS reporting</a>
+          <a href="#svc-mgmt">Management reporting</a>
+          <a href="#svc-fpa">FP&amp;A</a>
+          <a href="#svc-budget">Budgeting &amp; forecasting</a>
+          <a href="#svc-cfo">Virtual CFO</a>
+          <a href="#svc-xero">Xero / QBO accounting</a>
+        </div>
+
+        <div class="eyebrow" style="margin-top:34px; margin-bottom:0;">
+          <span class="dash"></span>
+          <span class="smallcaps">Primary services</span>
+        </div>
+
+        <div class="service-group" id="svc-nri" style="border-top:1px solid var(--rule-strong); margin-top:18px;">
+          <h3>NRI services</h3>
+          <p class="service-meta">Advisory and compliance service for Non-Resident Indians</p>
+          <dl class="spec">
+            <div><dt>Income-tax filing</dt><dd>Preparation and filing of income-tax returns for NRIs under the Income-tax Act, 1961.</dd></div>
+            <div><dt>Repatriation of funds</dt><dd>Compliance support for repatriation of funds from India under FEMA regulations.</dd></div>
+            <div><dt>Form 15CA / 15CB</dt><dd>Issuance of Form 15CB and assistance with Form 15CA for remittances outside India.</dd></div>
+            <div><dt>Property transactions</dt><dd>Tax and compliance advisory for NRIs on the purchase, sale, or transfer of property in India.</dd></div>
+            <div><dt>TDS on NRI transactions</dt><dd>Advisory on TDS applicability and lower/nil deduction certificates for NRI transactions.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-regn">
+          <h3>Company and firm registration</h3>
+          <p class="service-meta">Entity formation and registration</p>
+          <dl class="spec">
+            <div><dt>Company incorporation</dt><dd>Incorporation of private limited and limited companies with the Registrar of Companies (ROC).</dd></div>
+            <div><dt>LLP registration</dt><dd>Registration of Limited Liability Partnerships (LLPs).</dd></div>
+            <div><dt>Partnership firm registration</dt><dd>Drafting of partnership deeds and registration of partnership firms.</dd></div>
+            <div><dt>Documentation</dt><dd>Drafting of Memorandum and Articles of Association (MOA/AOA) and related incorporation documents.</dd></div>
+            <div><dt>Post-incorporation compliance</dt><dd>Assistance with post-incorporation filings, including PAN, TAN, and bank account opening documentation.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-trust">
+          <h3>Trust registration</h3>
+          <p class="service-meta">Registration and tax-exemption compliance for trusts</p>
+          <dl class="spec">
+            <div><dt>Trust registration</dt><dd>Registration of public and private trusts under the applicable Trusts Act.</dd></div>
+            <div><dt>Section 12A registration</dt><dd>Registration under Section 12A of the Income-tax Act, 1961, for income-tax exemption.</dd></div>
+            <div><dt>Section 80G registration</dt><dd>Registration under Section 80G of the Income-tax Act, 1961, enabling donors to claim deductions.</dd></div>
+            <div><dt>Ongoing compliance</dt><dd>Assistance with annual returns and compliance filings for registered trusts.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-itax">
+          <h3>Income-tax advisory</h3>
+          <p class="service-meta">Advisory and compliance service for individuals, firms, and companies</p>
+          <dl class="spec">
+            <div><dt>Return filing</dt><dd>Preparation and filing of income-tax returns for individuals, firms, and companies.</dd></div>
+            <div><dt>Tax planning</dt><dd>Advisory on tax planning within the framework of the Income-tax Act, 1961.</dd></div>
+            <div><dt>Assessments and notices</dt><dd>Assistance with income-tax assessments, scrutiny proceedings, and responses to notices.</dd></div>
+            <div><dt>TDS compliance</dt><dd>Advisory and filing support for TDS/TCS compliance.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-gst">
+          <h3>GST advisory</h3>
+          <p class="service-meta">Registration, filing, and advisory service</p>
+          <dl class="spec">
+            <div><dt>GST registration</dt><dd>Registration under the Goods and Services Tax (GST) Act.</dd></div>
+            <div><dt>Return filing</dt><dd>Preparation and filing of periodic GST returns.</dd></div>
+            <div><dt>Input tax credit</dt><dd>Advisory on input tax credit eligibility and reconciliation.</dd></div>
+            <div><dt>Compliance advisory</dt><dd>Advisory on GST applicability, rate classification, and compliance matters.</dd></div>
+          </dl>
+        </div>
+
+        <div class="eyebrow" style="margin-top:34px; margin-bottom:0;">
+          <span class="dash"></span>
+          <span class="smallcaps">Additional services</span>
+        </div>
+
+        <div class="service-group" id="svc-audit" style="border-top:1px solid var(--rule-strong); margin-top:18px;">
+          <h3>Statutory audit and tax audit</h3>
+          <p class="service-meta">Assurance service</p>
+          <dl class="spec">
+            <div><dt>Statutory audit</dt><dd>Audit of financial statements under the Companies Act, 2013.</dd></div>
+            <div><dt>Tax audit</dt><dd>Tax audit under Section 44AB of the Income-tax Act, 1961.</dd></div>
+            <div><dt>Scope</dt><dd>Conducted in accordance with applicable Standards on Auditing issued by the ICAI.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-ifrs">
+          <h3>IFRS financial reporting</h3>
+          <p class="service-meta">Reporting and advisory service</p>
+          <dl class="spec">
+            <div><dt>Preparation</dt><dd>Preparation of financial statements under IFRS.</dd></div>
+            <div><dt>Conversion</dt><dd>Conversion of financial statements from Indian GAAP / Ind AS to IFRS.</dd></div>
+            <div><dt>Qualification</dt><dd>Provided by CA Satyapramod S V, DipIFRS.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-mgmt">
+          <h3>Management reporting</h3>
+          <dl class="spec">
+            <div><dt>Reports</dt><dd>Periodic management information system (MIS) reports for internal decision-making.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-fpa">
+          <h3>FP&amp;A (financial planning &amp; analysis)</h3>
+          <dl class="spec">
+            <div><dt>Support</dt><dd>Financial planning and analysis support, including variance analysis.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-budget">
+          <h3>Budgeting and forecasting</h3>
+          <dl class="spec">
+            <div><dt>Preparation</dt><dd>Preparation of annual budgets and periodic financial forecasts.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-cfo">
+          <h3>Virtual CFO</h3>
+          <p class="service-meta">Advisory service</p>
+          <dl class="spec">
+            <div><dt>Financial oversight</dt><dd>Periodic review of financial statements and financial controls.</dd></div>
+            <div><dt>Reporting</dt><dd>Management and board-level financial reporting.</dd></div>
+            <div><dt>Planning</dt><dd>Involvement in budgeting, forecasting, and FP&amp;A as required.</dd></div>
+          </dl>
+        </div>
+
+        <div class="service-group" id="svc-xero">
+          <h3>Xero / QuickBooks Online (QBO) accounting</h3>
+          <p class="service-meta">Accounting service</p>
+          <dl class="spec">
+            <div><dt>Bookkeeping</dt><dd>Day-to-day transaction recording on Xero or QBO.</dd></div>
+            <div><dt>Reconciliation</dt><dd>Bank and ledger reconciliation on the chosen platform.</dd></div>
+            <div><dt>Reporting</dt><dd>Periodic financial reports generated from Xero or QBO.</dd></div>
+          </dl>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- ARTICLES -->
+  <section class="view" id="view-articles">
+    <div class="container">
+      <section class="block" style="padding-top:48px;">
+        <h2 class="block-title">Articles</h2>
+        <p class="block-lede">Articles published by the firm, updated periodically.</p>
+        <div class="article-placeholder">No articles have been published yet.</div>
+      </section>
+
+      <section class="block" style="border-bottom:none;">
+        <h2 class="block-title" style="font-size:1.25rem;">Newsletter</h2>
+        <p class="block-lede">Enter an email address to request future articles by email.</p>
+        <div class="newsletter-box">
+          <h3>Request articles by email</h3>
+          <form class="newsletter-row" id="newsletterForm">
+            <input type="email" required placeholder="you@example.com" aria-label="Email address">
+            <button type="submit">Request</button>
+          </form>
+          <p class="field-note" id="newsletterNote">This opens an email to request future articles; requests are handled individually and nothing is sent automatically from this page.</p>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="view" id="view-about">
+    <div class="container">
+      <section class="block" style="padding-top:48px; border-bottom:none;">
+        <h2 class="block-title">About</h2>
+
+        <div class="about-layout">
+          <div class="bio">
+            <p>CA Satyapramod S V is a chartered accountant with close to eight years of experience, covering statutory audit, tax audit, and financial reporting under Indian and international standards.</p>
+            <p>In addition to practice as a chartered accountant, he has worked as a senior manager in the corporate sector, with experience in management reporting, FP&amp;A, budgeting, and IFRS-based financial statements. This combination of audit practice and corporate finance experience informs the firm's approach to statutory compliance, financial reporting, and advisory work.</p>
+          </div>
+
+          <div class="about-facts">
+            <div class="factsheet">
+              <div class="fact-row"><div class="fact-term">Name</div><div class="fact-value">CA Satyapramod S V</div></div>
+              <div class="fact-row"><div class="fact-term">Qualification</div><div class="fact-value">Chartered Accountant, DipIFRS</div></div>
+              <div class="fact-row"><div class="fact-term">Firm</div><div class="fact-value">Satyapramod &amp; Associates, Chartered Accountants</div></div>
+              <div class="fact-row"><div class="fact-term">ICAI membership no.</div><div class="fact-value">282252</div></div>
+              <div class="fact-row"><div class="fact-term">Firm registration no.</div><div class="fact-value">032282S</div></div>
+              <div class="fact-row"><div class="fact-term">Year of establishment</div><div class="fact-value">2026</div></div>
+              <div class="fact-row"><div class="fact-term">Office address</div><div class="fact-value">#4, Opp. Skyline Apartments, Hosakerehalli, Bengaluru &ndash; 560 085</div></div>
+              <div class="fact-row"><div class="fact-term">Email</div><div class="fact-value"><a href="mailto:capramodsagara@gmail.com">capramodsagara@gmail.com</a></div></div>
+              <div class="fact-row"><div class="fact-term">Phone</div><div class="fact-value"><a href="tel:+917022160024">+91 70221 60024</a></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="view" id="view-contact">
+    <div class="container">
+      <section class="block" style="padding-top:48px; border-bottom:none;">
+        <h2 class="block-title">Contact</h2>
+        <p class="block-lede" style="margin-top:14px;">Satyapramod &amp; Associates, Chartered Accountants</p>
+
+        <dl class="contact-grid">
+          <div class="contact-row"><dt>Proprietor</dt><dd>CA Satyapramod S V, ACA, DipIFRS</dd></div>
+          <div class="contact-row"><dt>Email</dt><dd><a href="mailto:capramodsagara@gmail.com">capramodsagara@gmail.com</a></dd></div>
+          <div class="contact-row"><dt>Phone</dt><dd><a href="tel:+917022160024">+91 70221 60024</a></dd></div>
+          <div class="contact-row"><dt>Location</dt><dd>#4, Opp. Skyline Apartments, Hosakerehalli, Bengaluru &ndash; 560 085</dd></div>
+        </dl>
+
+        <form class="enquiry-form" id="enquiryForm">
+          <fieldset>
+            <legend>Services of interest</legend>
+            <label class="svc-check"><input type="checkbox" value="NRI services"> NRI services</label>
+            <label class="svc-check"><input type="checkbox" value="Company and firm registration"> Company and firm registration</label>
+            <label class="svc-check"><input type="checkbox" value="Trust registration"> Trust registration</label>
+            <label class="svc-check"><input type="checkbox" value="Income-tax advisory"> Income-tax advisory</label>
+            <label class="svc-check"><input type="checkbox" value="GST advisory"> GST advisory</label>
+            <label class="svc-check"><input type="checkbox" value="Statutory audit"> Statutory audit</label>
+            <label class="svc-check"><input type="checkbox" value="Tax audit"> Tax audit</label>
+            <label class="svc-check"><input type="checkbox" value="IFRS financial reporting"> IFRS financial reporting</label>
+            <label class="svc-check"><input type="checkbox" value="Management reporting"> Management reporting</label>
+            <label class="svc-check"><input type="checkbox" value="FP&amp;A"> FP&amp;A</label>
+            <label class="svc-check"><input type="checkbox" value="Budgeting and forecasting"> Budgeting and forecasting</label>
+            <label class="svc-check"><input type="checkbox" value="Virtual CFO"> Virtual CFO</label>
+            <label class="svc-check"><input type="checkbox" value="Xero / QBO accounting"> Xero / QBO accounting</label>
+          </fieldset>
+
+          <label class="field-label" for="enqName">Name</label>
+          <input type="text" id="enqName" required>
+
+          <label class="field-label" for="enqEmail">Your email</label>
+          <input type="email" id="enqEmail" required>
+
+          <label class="field-label" for="enqMsg">Message (optional)</label>
+          <textarea id="enqMsg"></textarea>
+
+          <button type="submit" class="btn btn-filled">Send enquiry</button>
+          <p class="field-note" id="enquiryNote">Fill in your query and we will reach out to you.</p>
+        </form>
+      </section>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>Satyapramod &amp; Associates, Chartered Accountants &middot; Bengaluru, Karnataka</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var routes = ["home", "services", "articles", "about", "contact"];
+    var nav = document.getElementById("primaryNav");
+    var toggle = document.getElementById("navToggle");
+
+    function showRoute() {
+      var raw = (location.hash || "#home").replace("#", "");
+      var hash;
+      if (routes.indexOf(raw) !== -1) {
+        hash = raw;
+      } else if (raw.indexOf("svc-") === 0) {
+        hash = "services";
+      } else {
+        hash = "home";
+      }
+      routes.forEach(function (r) {
+        var el = document.getElementById("view-" + r);
+        if (el) el.classList.toggle("active", r === hash);
+      });
+      nav.querySelectorAll("a").forEach(function (a) {
+        if (a.dataset.route === hash) { a.setAttribute("aria-current", "page"); }
+        else { a.removeAttribute("aria-current"); }
+      });
+      nav.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      if (raw === hash) {
+        window.scrollTo(0, 0);
+      } else {
+        var target = document.getElementById(raw);
+        if (target) { setTimeout(function () { target.scrollIntoView(); }, 0); }
+      }
+    }
+
+    window.addEventListener("hashchange", showRoute);
+    showRoute();
+
+    toggle.addEventListener("click", function () {
+      var open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+
+    var nlForm = document.getElementById("newsletterForm");
+    if (nlForm) {
+      nlForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = nlForm.querySelector("input[type=email]").value.trim();
+        if (!email) return;
+        window.location.href = "mailto:capramodsagara@gmail.com?subject=" +
+          encodeURIComponent("Article updates request") +
+          "&body=" + encodeURIComponent("Please add this email to the article update list: " + email);
+        document.getElementById("newsletterNote").textContent = "Your email application should now open to send the request.";
+      });
+    }
+
+    var enqForm = document.getElementById("enquiryForm");
+    if (enqForm) {
+      enqForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var services = Array.prototype.slice.call(enqForm.querySelectorAll("input[type=checkbox]:checked")).map(function (c) { return c.value; });
+        var name = document.getElementById("enqName").value.trim();
+        var email = document.getElementById("enqEmail").value.trim();
+        var msg = document.getElementById("enqMsg").value.trim();
+        var body = "Name: " + name + "\nEmail: " + email +
+          "\nServices of interest: " + (services.length ? services.join(", ") : "None selected") +
+          (msg ? "\n\nMessage:\n" + msg : "");
+        window.location.href = "mailto:capramodsagara@gmail.com?subject=" +
+          encodeURIComponent("Service enquiry from " + (name || "website visitor")) +
+          "&body=" + encodeURIComponent(body);
+        document.getElementById("enquiryNote").textContent = "Your email application should now open with the enquiry filled in.";
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
